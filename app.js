@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const tasks = require('./routes/tasks')
 const connectDB = require('./db/connect')
+const notFound = require('./middleware/not-found')
 require('dotenv').config()
 
 // app.use(express.static('./public'))
@@ -12,12 +13,10 @@ app.use(express.json()) // if we don't use this, we won't get that data in req.b
 app.use(express.static('./public'))
 
 //routes
-app.get('/hello', (req, res) => {
-    res.send('Task Manager App')
-})
 
 app.use('/api/v1/tasks', tasks)
 
+app.use(notFound)
 const port = 3000
 
 const start = async () => {
